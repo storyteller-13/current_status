@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Current Status of Marina's Heart</title>
+  <meta name="description" content="Current status of my heart and mind: 100% building.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 11' shape-rendering='crispEdges'%3E%3Cpath fill='%23ff004d' d='M2 0h3v1h1v1h1V1h1V0h3v1h1v1h1v3h-1v1h-1v1h-1v1h-1v1H8v1H7v1H6v-1H5V9H4V8H3V7H2V6H1V5H0V2h1V1h1z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+  <style>
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --heart: #ff004d;
+      --muted: #8a8a8a;
+    }
+
+    * { margin: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(32px, 7vmin, 64px);
+      padding: 24px 16px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Press Start 2P", ui-monospace, monospace;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(12px, 2.6vmin, 22px);
+      font-weight: 400;
+      line-height: 1.8;
+      letter-spacing: 0.08em;
+    }
+
+    /* Each tier sets the colours its hearts are drawn with. */
+    .tier-high { --c: #ff004d; --shade: #a8003a; --shine: #ffd1dc; --empty: #33000f; }
+    .tier-mid  { --c: #ffec27; --shade: #c49a00; --shine: #fffbc9; --empty: #332b00; }
+    .tier-low  { --c: #29adff; --shade: #1672c4; --shine: #d3f0ff; --empty: #04203a; }
+
+    .hud {
+      --stat-gap: clamp(6px, 1.4vw, 16px);
+      --stat-width: clamp(72px, 11vw, 112px);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px var(--stat-gap);
+      list-style: none;
+      padding: 0;
+    }
+
+    .stat { width: var(--stat-width); }
+
+    .heart {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+      shape-rendering: crispEdges;
+      filter: drop-shadow(0 0 6px var(--c));
+      animation: beat 1.2s steps(1) infinite;
+      /* Offset each heart so the pulse ripples along the row. */
+      animation-delay: calc(var(--i) * 0.14s);
+    }
+
+    .heart-outline { fill: var(--shade); }
+    .heart-empty   { fill: var(--empty); }
+    .heart-fill    { fill: var(--c); }
+    .heart-shadow  { fill: var(--shade); }
+    .heart-shine   { fill: var(--shine); }
+
+    .stat-name {
+      display: block;
+      margin-top: 12px;
+      font-size: clamp(8px, 1.1vw, 11px);
+      line-height: 1.4;
+    }
+
+    .stat-value {
+      display: block;
+      margin-top: 6px;
+      font-size: clamp(8px, 1vw, 10px);
+      color: var(--c);
+    }
+
+    section { width: 100%; max-width: 72ch; }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: clamp(10px, 1.8vmin, 14px);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .status {
+      font-size: clamp(14px, 4.2vmin, 40px);
+      line-height: 1.4;
+      color: var(--heart);
+    }
+
+    .note {
+      max-width: 60ch;
+      margin: 20px auto 0;
+      font-size: clamp(10px, 1.5vmin, 12px);
+      line-height: 2;
+      color: #bbb;
+      text-transform: none;
+    }
+
+    .previous {
+      font-size: clamp(10px, 1.8vmin, 14px);
+      color: var(--muted);
+    }
+
+    footer {
+      max-width: 60ch;
+      font-size: clamp(10px, 1.5vmin, 12px);
+      line-height: 2;
+    }
+
+    footer a { color: var(--heart); }
+
+    .cursor { animation: blink 1s steps(1) infinite; }
+
+    /* Whole-step jumps, no easing: the double-thump of an 8-bit heart. */
+    @keyframes beat {
+      0%   { transform: scale(1); }
+      8%   { transform: scale(1.08); }
+      16%  { transform: scale(1); }
+      24%  { transform: scale(1.04); }
+      32%  { transform: scale(1); }
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Too narrow for one row: stack the hearts 4 + 3. */
+    @media (max-width: 719px) {
+      .hud { max-width: calc(4 * var(--stat-width) + 3 * var(--stat-gap)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .heart, .cursor { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Current status of Marina's heart and mind</h1>
+
+  <ul class="hud" id="hud"></ul>
+
+  <section>
+    <h2>Current status</h2>
+    <p class="status">100% married to work<span class="cursor" aria-hidden="true">_</span></p>
+    <p class="note">
+      Until further notice, I'm focused on building my company, rebuilding my life, my home, my destiny, and everything that was taken from me. Not interested in anyone; in survival-cockroach mode. Please respect my energy, my air, and my space. Only approach me if you're genuinely willing to offer meaningful, tangible, practical help in REAL life.
+    </p>
+  </section>
+
+  <section>
+    <h2>Previous status</h2>
+    <p class="previous">&mdash;</p>
+  </section>
+
+  <footer>
+    Did you like this? Can't wait to show what we are doing at
+    <a href="https://nullstar.games">NULSTAR</a>
+  </footer>
+
+  <script>
+    // Edit the numbers here; each heart's fill and colour follow from them.
+    const STATS = [
+      ["Spirit", 80],
+      ["Vitality", 80],
+      ["Clarity", 90],
+      ["Happiness", 50],
+      ["Optimism", 100],
+      ["Agape", 100],
+      ["Eros", 0],
+    ];
+
+    const SHAPE = "M2 0h3v1h1v1h1V1h1V0h3v1h1v1h1v3h-1v1h-1v1h-1v1h-1v1H8v1H7v1H6v-1H5V9H4V8H3V7H2V6H1V5H0V2h1V1h1z";
+    const SHADOW = "M10 0h1v1h-1zM11 1h1v1h-1zM12 2h1v3h-1zM11 5h1v1h-1zM10 6h1v1h-1zM9 7h1v1H9zM8 8h1v1H8zM7 9h1v1H7zM6 10h1v1H6z";
+    const SHINE = "M2 1h2v1H2zM1 2h1v2H1z";
+    const HEART_ROWS = 11;
+
+    const tier = (value) => (value >= 70 ? "high" : value >= 40 ? "mid" : "low");
+
+    document.getElementById("hud").innerHTML = STATS.map(([name, value], i) => {
+      const filledRows = HEART_ROWS * value / 100;
+      return `
+        <li class="stat tier-${tier(value)}" style="--i: ${i}">
+          <svg class="heart" viewBox="-1 -1 15 13" role="img" aria-label="${name}: ${value}%">
+            <clipPath id="fill-${i}"><rect x="0" y="${HEART_ROWS - filledRows}" width="13" height="${filledRows}"/></clipPath>
+            <path class="heart-outline" d="${SHAPE}" transform="translate(-1 0)"/>
+            <path class="heart-outline" d="${SHAPE}" transform="translate(1 0)"/>
+            <path class="heart-outline" d="${SHAPE}" transform="translate(0 -1)"/>
+            <path class="heart-outline" d="${SHAPE}" transform="translate(0 1)"/>
+            <path class="heart-empty" d="${SHAPE}"/>
+            <g clip-path="url(#fill-${i})">
+              <path class="heart-fill" d="${SHAPE}"/>
+              <path class="heart-shadow" d="${SHADOW}"/>
+              <path class="heart-shine" d="${SHINE}"/>
+            </g>
+          </svg>
+          <span class="stat-name">${name}</span>
+          <span class="stat-value">${value}%</span>
+        </li>`;
+    }).join("");
+  </script>
+</body>
+</html>
