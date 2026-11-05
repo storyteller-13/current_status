@@ -1,12 +1,14 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Current Status of Marina's Heart</title>
+  <title>Marina's Current Status</title>
   <meta name="description" content="Current status of my heart and mind: 100% building.">
   <meta name="theme-color" content="#000000">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 11' shape-rendering='crispEdges'%3E%3Cpath fill='%23ff004d' d='M2 0h3v1h1v1h1V1h1V0h3v1h1v1h1v3h-1v1h-1v1h-1v1h-1v1H8v1H7v1H6v-1H5V9H4V8H3V7H2V6H1V5H0V2h1V1h1z'/%3E%3C/svg%3E">
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 11' shape-rendering='crispEdges'%3E%3Cpath fill='%23ff004d' d='M2 0h3v1h1v1h1V1h1V0h3v1h1v1h1v3h-1v1h-1v1h-1v1h-1v1H8v1H7v1H6v-1H5V9H4V8H3V7H2V6H1V5H0V2h1V1h1z'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
@@ -18,8 +20,16 @@
       --muted: #8a8a8a;
     }
 
-    * { margin: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      box-sizing: border-box;
+    }
 
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    
     body {
       min-height: 100vh;
       min-height: 100dvh;
@@ -44,9 +54,27 @@
     }
 
     /* Each tier sets the colours its hearts are drawn with. */
-    .tier-high { --c: #ff004d; --shade: #a8003a; --shine: #ffd1dc; --empty: #33000f; }
-    .tier-mid  { --c: #ffec27; --shade: #c49a00; --shine: #fffbc9; --empty: #332b00; }
-    .tier-low  { --c: #29adff; --shade: #1672c4; --shine: #d3f0ff; --empty: #04203a; }
+    .tier-high {
+      --c: #ff004d;
+      --label: #ff6b93;
+      --shade: #a8003a;
+      --shine: #ffd1dc;
+      --empty: #33000f;
+    }
+
+    .tier-mid {
+      --c: #f7f43d;
+      --shade: #c49a00;
+      --shine: #fffbc9;
+      --empty: #332b00;
+    }
+
+    .tier-low {
+      --c: #29f1ff;
+      --shade: #308bdb;
+      --shine: #d3f0ff;
+      --empty: #04203a;
+    }
 
     .hud {
       --stat-gap: clamp(6px, 1.4vw, 16px);
@@ -59,7 +87,9 @@
       padding: 0;
     }
 
-    .stat { width: var(--stat-width); }
+    .stat {
+      width: var(--stat-width);
+    }
 
     .heart {
       display: block;
@@ -73,11 +103,25 @@
       animation-delay: calc(var(--i) * 0.14s);
     }
 
-    .heart-outline { fill: var(--shade); }
-    .heart-empty   { fill: var(--empty); }
-    .heart-fill    { fill: var(--c); }
-    .heart-shadow  { fill: var(--shade); }
-    .heart-shine   { fill: var(--shine); }
+    .heart-outline {
+      fill: var(--shade);
+    }
+
+    .heart-empty {
+      fill: var(--empty);
+    }
+
+    .heart-fill {
+      fill: var(--c);
+    }
+
+    .heart-shadow {
+      fill: var(--shade);
+    }
+
+    .heart-shine {
+      fill: var(--shine);
+    }
 
     .stat-name {
       display: block;
@@ -89,11 +133,14 @@
     .stat-value {
       display: block;
       margin-top: 6px;
-      font-size: clamp(8px, 1vw, 10px);
-      color: var(--c);
+      font-size: clamp(10px, 1.1vw, 12px);
+      color: var(--label, var(--c));
     }
 
-    section { width: 100%; max-width: 72ch; }
+    section {
+      width: 100%;
+      max-width: 72ch;
+    }
 
     h2 {
       margin-bottom: 20px;
@@ -112,7 +159,7 @@
     .note {
       max-width: 60ch;
       margin: 20px auto 0;
-      font-size: clamp(10px, 1.5vmin, 12px);
+      font-size: 12px;
       line-height: 2;
       color: #bbb;
       text-transform: none;
@@ -125,37 +172,74 @@
 
     footer {
       max-width: 60ch;
-      font-size: clamp(10px, 1.5vmin, 12px);
+      font-size: 12px;
       line-height: 2;
     }
 
-    footer a { color: var(--heart); }
+    footer a {
+      color: var(--heart);
+    }
 
-    .cursor { animation: blink 1s steps(1) infinite; }
+    .cursor {
+      animation: blink 1s steps(1) infinite;
+    }
 
     /* Whole-step jumps, no easing: the double-thump of an 8-bit heart. */
     @keyframes beat {
-      0%   { transform: scale(1); }
-      8%   { transform: scale(1.08); }
-      16%  { transform: scale(1); }
-      24%  { transform: scale(1.04); }
-      32%  { transform: scale(1); }
+      0% {
+        transform: scale(1);
+      }
+
+      8% {
+        transform: scale(1.08);
+      }
+
+      16% {
+        transform: scale(1);
+      }
+
+      24% {
+        transform: scale(1.04);
+      }
+
+      32% {
+        transform: scale(1);
+      }
     }
 
     @keyframes blink {
-      50% { opacity: 0; }
+      50% {
+        opacity: 0;
+      }
     }
 
     /* Too narrow for one row: stack the hearts 4 + 3. */
-    @media (max-width: 719px) {
-      .hud { max-width: calc(4 * var(--stat-width) + 3 * var(--stat-gap)); }
+    @media (max-width: 599px) {
+      .hud {
+        max-width: calc(4 * var(--stat-width) + 3 * var(--stat-gap));
+      }
+    }
+
+    @media (max-width: 359px) {
+      body {
+        padding-inline: 8px;
+      }
+
+      .hud {
+        --stat-gap: 5px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .heart, .cursor { animation: none; }
+
+      .heart,
+      .cursor {
+        animation: none;
+      }
     }
   </style>
 </head>
+
 <body>
   <h1>Current status of Marina's heart and mind</h1>
 
@@ -165,7 +249,9 @@
     <h2>Current status</h2>
     <p class="status">100% married to work<span class="cursor" aria-hidden="true">_</span></p>
     <p class="note">
-      Until further notice, I'm focused on building my company, rebuilding my life, my home, my destiny, and everything that was taken from me. Not interested in anyone; in survival-cockroach mode. Please respect my energy, my air, and my space. Only approach me if you're genuinely willing to offer meaningful, tangible, practical help in REAL life.
+      I'm focused on building my company, rebuilding my life, my home, my destiny, and everything that was taken from
+      me. Not interested in anyone; in survival-cockroach mode. Please respect my energy, my air, and my space. Only
+      approach me if you're genuinely willing to offer meaningful, tangible, practical help in REAL life.
     </p>
   </section>
 
@@ -175,8 +261,8 @@
   </section>
 
   <footer>
-    Did you like this? Can't wait to show what we are doing at
-    <a href="https://nullstar.games">NULSTAR</a>
+    Did you enjoy this? Just wait until you see what we're building at
+    <a href="https://nullstar.games" target="_blank">NULLSTAR</a>. A new way for curious minds to connect, create, play, and explore the future together.
   </footer>
 
   <script>
@@ -221,4 +307,5 @@
     }).join("");
   </script>
 </body>
+
 </html>
